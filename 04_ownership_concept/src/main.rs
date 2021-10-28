@@ -19,6 +19,7 @@ fn main() {
     // as the value of s1 is moved to s2
     abt_ownership();
     abt_referencing();
+    first_word();
 }
 
 
@@ -88,7 +89,7 @@ fn abt_referencing(){
  
          let r1 = &s;
          let r2 = &s; // we cannot have two mutable reference for same data in particular scope dto avoid data races
-         // in the line below error will occur as immutable reference alreadyexist
+         // in the line below error will occur as immutable reference already exist
          //let r3 = &mut s;
 
          println!("{} {} ", r1,r2);
@@ -104,3 +105,29 @@ fn abt_referencing(){
     or any number of immutable references
  - reference must always be valid
 */
+
+//now lets learn about slices in rust
+fn first_word() {
+
+    let mut s = String::from("hello world");
+    let frst_word: &str = "any word";
+    let word = sliced(&frst_word);
+    println!("the first word is {}", word);
+
+    //slices for arrays
+    let a = [12,28,33,4,5];
+    let sliced = &a[..3];
+    println!("the first value of sliced  is {}",sliced[0]);
+}
+
+
+    fn sliced(s: &str) -> &str{
+        let bytes =  s.as_bytes(); //as_bytes() is a built in function of string
+
+        for (i,&item) in bytes.iter().enumerate(){
+            if item ==b' ' {
+            return &s[0..i];
+            } 
+        }
+        &s[..]
+    }
